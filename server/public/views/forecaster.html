@@ -1,19 +1,28 @@
 <h2>Forecaster</h2>
 
 <form>
-    <div>
-        <table>
-            <tr>
-                <th>Part Number</th>
-                <th>Manufacturer</th>
-                <th>Part Description</th>
-                <th>Quantity Required</th>
-                <th>Quantity Available</th>
-                <th>Quantity to Order</th>
-            </tr>
-            <tr>
-
-            </tr>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Part Number</th>
+                    <th>Manufacturer</th>
+                    <th>Part Description</th>
+                    <th>Quantity Required</th>
+                    <th>Quantity Available</th>
+                    <th>Quantity to Order</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="part in partsOrder">
+                    <td>{{part.part_number}}</td>
+                    <td>{{part.manufacturer}}</td>
+                    <td>{{part.part_description}}</td>
+                    <td>{{part.quantity_required}}</td>
+                    <td>{{part.quantity_available}}</td>
+                    <td>{{part.quantity_required - part.quantity_available}}</td>
+                </tr>
+            </tbody>
         </table>
     </div>
     <input type="submit" id="csv" value="Create CSV">

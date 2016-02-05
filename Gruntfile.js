@@ -29,7 +29,7 @@ module.exports = function(grunt){
                 src: [
                     "angular/angular.min.js",
                     "angular-route/angular-route.min.js",
-                    //"bootstrap/dist/css/bootstrap.min.css"
+                    "bootstrap/dist/css/bootstrap.min.css"
                 ],
                 "dest": "server/public/vendor/"
             }

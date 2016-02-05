@@ -13,13 +13,12 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         .when('/forecaster',{
             templateUrl: 'views/forecaster.html',
             controller: 'Forecaster'
-        })
+        });
     $locationProvider.html5Mode(true);        //needed to remove #'s from HTML links to access controllers
 }]);
 
 
 app.controller('PartPicker', ['$scope', '$http', function($scope, $http) {
-    //$scope.parts = ['123456789', '234567891', '345678912', '456789123', '567891234', '678912345'];
     $scope.allParts = [];
 
     getParts();
@@ -41,6 +40,7 @@ app.controller('Forecaster', ['$scope', '$http', function($scope, $http){
     function getPartsOrder() {
         $http.get('/api/pullOrder').success(function(response){
             console.log(response);
+            $scope.partsOrder = response;
         });
     };
 

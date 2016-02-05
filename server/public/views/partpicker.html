@@ -1,42 +1,104 @@
 <h2>Part Picker</h2>
 
 <form>
-    <div>
-        <label>Part Number</label>
-        <label>Part Description</label>
-        <label>Quantity Required</label>
+    <div class="table-responsive">
+        <table class="table table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>Part Number</th>
+                    <th>Manufacturer</th>
+                    <th>Part Description</th>
+                    <th>Qty Required</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select ng-model="allParts.id1" ng-options="obj.id as obj.part_number for obj in allParts"></select>
+                    </td>
+                    <td>
+                        <label>{{allParts[allParts.id1-1].manufacturer}}</label>
+                    </td>
+                    <td>
+                        <label>{{allParts[allParts.id1-1].part_description}}</label>
+                    </td>
+                    <td>
+                        <input ng-model="allParts.value1" type="number">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select ng-model="allParts.id2" ng-options="obj.id as obj.part_number for obj in allParts"></select>
+                    </td>
+                    <td>
+                        <label>{{allParts[allParts.id2-1].manufacturer}}</label>
+                    </td>
+                    <td>
+                        <label>{{allParts[allParts.id2-1].part_description}}</label>
+                    </td>
+                    <td>
+                        <input ng-model="allParts.value2" type="number">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select ng-model="allParts.id3" ng-options="obj.id as obj.part_number for obj in allParts"></select>
+                    </td>
+                    <td>
+                        <label>{{allParts[allParts.id3-1].manufacturer}}</label>
+                    </td>
+                    <td>
+                        <label>{{allParts[allParts.id3-1].part_description}}</label>
+                    </td>
+                    <td>
+                        <input ng-model="allParts.value3" type="number">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select ng-model="allParts.id4" ng-options="obj.id as obj.part_number for obj in allParts"></select>
+                    </td>
+                    <td>
+                        <label>{{allParts[allParts.id4-1].manufacturer}}</label>
+                    </td>
+                    <td>
+                        <label>{{allParts[allParts.id4-1].part_description}}</label>
+                    </td>
+                    <td>
+                        <input ng-model="allParts.value4" type="number">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select ng-model="allParts.id5" ng-options="obj.id as obj.part_number for obj in allParts"></select>
+                    </td>
+                    <td>
+                        <label>{{allParts[allParts.id5-1].manufacturer}}</label>
+                    </td>
+                    <td>
+                        <label>{{allParts[allParts.id5-1].part_description}}</label>
+                    </td>
+                    <td>
+                        <input ng-model="allParts.value5" type="number">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select ng-model="allParts.id6" ng-options="obj.id as obj.part_number for obj in allParts"></select>
+                    </td>
+                    <td>
+                        <label>{{allParts[allParts.id6-1].manufacturer}}</label>
+                    </td>
+                    <td>
+                        <label>{{allParts[allParts.id6-1].part_description}}</label>
+                    </td>
+                    <td>
+                        <input ng-model="allParts.value6" type="number">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <div>
-        <select ng-model="allParts.id1" ng-options="obj.id as obj.part_number for obj in allParts"></select>
-        <label>{{allParts[allParts.id1-1].part_description}}</label>
-        <input type="number">
-    </div>
-    <div>
-        <select ng-model="allParts.id2" ng-options="obj.id as obj.part_number for obj in allParts"></select>
-        <label>{{allParts[allParts.id2-1].part_description}}</label>
-        <input type="number">
-    </div>
-    <div>
-        <select ng-model="allParts.id3" ng-options="obj.id as obj.part_number for obj in allParts"></select>
-        <label>{{allParts[allParts.id3-1].part_description}}</label>
-        <input type="number">
-    </div>
-    <div>
-        <select ng-model="allParts.id4" ng-options="obj.id as obj.part_number for obj in allParts"></select>
-        <label>{{allParts[allParts.id4-1].part_description}}</label>
-        <input type="number">
-    </div>
-    <div>
-        <select ng-model="allParts.id5" ng-options="obj.id as obj.part_number for obj in allParts"></select>
-        <label>{{allParts[allParts.id5-1].part_description}}</label>
-        <input type="number">
-    </div>
-    <div>
-        <select ng-model="allParts.id6" ng-options="obj.id as obj.part_number for obj in allParts"></select>
-        <label>{{allParts[allParts.id6-1].part_description}}</label>
-        <input type="number">
-    </div>
-    <br/>
     <div>
         <input type="submit" id="save" value="Save">
     </div>
