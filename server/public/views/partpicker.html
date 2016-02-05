@@ -1,0 +1,43 @@
+<h2>Part Picker</h2>
+
+<form>
+    <div>
+        <label>Part Number</label>
+        <label>Part Description</label>
+        <label>Quantity Required</label>
+    </div>
+    <div>
+        <select ng-model="allParts.id1" ng-options="obj.id as obj.part_number for obj in allParts"></select>
+        <label>{{allParts[allParts.id1-1].part_description}}</label>
+        <input type="number">
+    </div>
+    <div>
+        <select ng-model="allParts.id2" ng-options="obj.id as obj.part_number for obj in allParts"></select>
+        <label>{{allParts[allParts.id2-1].part_description}}</label>
+        <input type="number">
+    </div>
+    <div>
+        <select ng-model="allParts.id3" ng-options="obj.id as obj.part_number for obj in allParts"></select>
+        <label>{{allParts[allParts.id3-1].part_description}}</label>
+        <input type="number">
+    </div>
+    <div>
+        <select ng-model="allParts.id4" ng-options="obj.id as obj.part_number for obj in allParts"></select>
+        <label>{{allParts[allParts.id4-1].part_description}}</label>
+        <input type="number">
+    </div>
+    <div>
+        <select ng-model="allParts.id5" ng-options="obj.id as obj.part_number for obj in allParts"></select>
+        <label>{{allParts[allParts.id5-1].part_description}}</label>
+        <input type="number">
+    </div>
+    <div>
+        <select ng-model="allParts.id6" ng-options="obj.id as obj.part_number for obj in allParts"></select>
+        <label>{{allParts[allParts.id6-1].part_description}}</label>
+        <input type="number">
+    </div>
+    <br/>
+    <div>
+        <input type="submit" id="save" value="Save">
+    </div>
+</form>
