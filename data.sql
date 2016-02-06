@@ -49,4 +49,7 @@ INSERT INTO orders (part_id, quantity_required) VALUES (15, 200);
 --Query to select data for table to display in Forecaster.html
 SELECT parts.part_number, parts.manufacturer, parts.part_description, orders.quantity_required, parts.quantity_available FROM parts INNER JOIN orders
 ON parts.id = orders.part_id
-ORDER BY parts.id ASC;;
+ORDER BY parts.id ASC;
+
+--Query to delete all records from table 'orders'
+DELETE FROM orders;
