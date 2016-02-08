@@ -1,8 +1,14 @@
 var express = require('express');
 var index = require('./routes/index');
 var api = require('./routes/api');
+var bodyParser = require('body-parser');
 
+//Bring in express and assign to variable app
 var app = express();
+
+//Bring in bodyParser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 //Establish root folder for server from where all resources will be available
 app.use(express.static('server/public'));

@@ -8,6 +8,39 @@ var connectionString = 'postgress://localhost:5432/inventory_forecaster';
 
 var router = express.Router();
 
+router.post('/saveToOrder', function(request, response){
+
+    //grab data from http request
+    var partId = request.body.id;
+    var quantity = request.body.value;
+
+    //testing purposes
+    //console.log('partId value: ', partId);
+    //console.log('quantity value: ', quantity);
+
+    //get a Postgress client from the connection pool
+    pg.connect(connectionString, function(error, client){
+
+        //handle errors
+        if(error){
+            console.log('Postgress client connection pool error: ', error);
+        }
+
+        //sql query to insert data
+        var query = client.query("INSERT INTO orders(part_id, quantity_required) VALUES($1, $2)", [partId, quantity], function(error, result){
+            if(error){
+                console.log('sql query insert error in order table: ', error);
+            }
+        });
+
+        //after data is inserted, close connection and return
+        query.on('end', function(){
+            client.end();
+            response.send('Record inserted...');
+        });
+    });
+});
+
 router.get('/pullAllParts', function(request, response){
 
     var parts = [];
