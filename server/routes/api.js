@@ -18,12 +18,12 @@ router.post('/saveToOrder', function(request, response){
     //console.log('partId value: ', partId);
     //console.log('quantity value: ', quantity);
 
-    //get a Postgress client from the connection pool
+    //get a Postgress models from the connection pool
     pg.connect(connectionString, function(error, client){
 
         //handle errors
         if(error){
-            console.log('Postgress client connection pool error: ', error);
+            console.log('Postgress models connection pool error: ', error);
         }
 
         //sql query to insert data
@@ -91,7 +91,7 @@ router.delete('/deleteOrder', function(request, response){
 
     var order = [];
 
-    // get a Postgres client from connection pool
+    // get a Postgres models from connection pool
     pg.connect(connectionString, function(error, client){
         //handle errors
         if(error){

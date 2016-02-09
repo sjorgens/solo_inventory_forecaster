@@ -1,11 +1,24 @@
 //Hookup angular to be used on main HTML page (index.html)
 var app = angular.module('routeApp', ['ngRoute']);
 
-//Global variables for testing purposes
-
-
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){    //$locationProvider needed to remove #'s in HTML to access controller links
     $routeProvider
+        .when('/', {
+            templateUrl: 'views/signin.html',
+            controller: 'MainController'
+        })
+        .when('/success', {
+            templateUrl: 'views/partpicker.html',
+            controller: 'PartPicker'
+        })
+        .when('/failure', {
+            templateUrl: 'views/fail.html',
+            controller: 'FailController'
+        })
+        .when('/register', {
+            templateUrl: 'views/register.html',
+            controller: 'FailController'
+        })
         .when('/partpicker', {
             templateUrl: 'views/partpicker.html',
             controller: 'PartPicker'
@@ -17,6 +30,20 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     $locationProvider.html5Mode(true);        //needed to remove #'s from HTML links to access controllers
 }]);
 
+app.controller('MainController', ['$scope', '$http', '$location', function($scope, $http, $location){
+    $scope.data = {};
+
+    $scope.submitData = function(){
+        $http.post('/', $scope.data).then(function(response){
+            console.log(response);
+            $location.path(response.data);
+        });
+    };
+}]);
+
+app.controller('FailController', ['$scope', '$http', function($scope, $http){
+
+}]);
 
 app.controller('PartPicker', ['$scope', '$http', function($scope, $http) {
     $scope.allParts = [];
@@ -28,11 +55,18 @@ app.controller('PartPicker', ['$scope', '$http', function($scope, $http) {
     var part6 = {};
     //$scope.partsOrder = [];
 
+    //[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+    //call function to return true once user logs in to turn on header elements in html
+    //doesn't work
+    $scope.loggedIn = false;
+
+    $scope.loggedIn = function(){
+      return true;
+    };
+    //[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+
     //call function to get all parts in parts table
     getParts();
-
-
-
 
     //post selected parts to order table
     $scope.postPartsOrder = function(){
@@ -119,10 +153,12 @@ app.controller('PartPicker', ['$scope', '$http', function($scope, $http) {
         });
     };
 
+
 }]);
 
 app.controller('Forecaster', ['$scope', '$http', function($scope, $http){
     $scope.partsOrder = [];
+    $scope.completeOrder = [];
 
     getPartsOrder();
 
@@ -130,7 +166,17 @@ app.controller('Forecaster', ['$scope', '$http', function($scope, $http){
         $http.get('/api/pullOrder').success(function(response){
             console.log(response);
             $scope.partsOrder = response;
+            buildOrder();
         });
     };
+
+    function buildOrder() {
+        for (var i = 0; i < $scope.partsOrder.length; i++){
+            console.log('Qty to Order: ', $scope.partsOrder[i].quantity_required - $scope.partsOrder[i].quantity_available);
+            $scope.partsOrder[i].quantity_needed = $scope.partsOrder[i].quantity_required - $scope.partsOrder[i].quantity_available;
+        }
+        console.log('')
+    };
+
 
 }]);
