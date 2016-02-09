@@ -30,22 +30,36 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     $locationProvider.html5Mode(true);        //needed to remove #'s from HTML links to access controllers
 }]);
 
-app.controller('MainController', ['$scope', '$http', '$location', function($scope, $http, $location){
-    $scope.data = {};
+app.controller('MainController', ['$scope', '$http', '$location', 'UserService', function($scope, $http, $location, UserService){
+    //original code
+    //$scope.data = {};
+    //
+    //$scope.submitData = function(){
+    //    $http.post('/', $scope.data).then(function(response){
+    //        console.log(response);
+    //        $location.path(response.data);
+    //    });
+    //};
+    $scope.userData = UserService.userData;
 
-    $scope.submitData = function(){
-        $http.post('/', $scope.data).then(function(response){
-            console.log(response);
-            $location.path(response.data);
-        });
+    $http.get('getUser').then(function(response){
+        console.log(response);
+        $scope.user = response;
+    });
+
+    $scope.sendDataAndStuff = function(){
+        var loginSuccessful = UserService.makeLoginRequest($scope.data);
+        $location.path('success');
     };
+
 }]);
 
 app.controller('FailController', ['$scope', '$http', function($scope, $http){
 
 }]);
 
-app.controller('PartPicker', ['$scope', '$http', function($scope, $http) {
+app.controller('PartPicker', ['$scope', '$http', 'UserService', function($scope, $http, UserService) {
+    $scope.userData = UserService.userData;
     $scope.allParts = [];
     var part1 = {};
     var part2 = {};
@@ -57,7 +71,7 @@ app.controller('PartPicker', ['$scope', '$http', function($scope, $http) {
 
     //[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
     //call function to return true once user logs in to turn on header elements in html
-    //doesn't work
+    //doesn't work; try implementing with new code from 2/8 lecture
     $scope.loggedIn = false;
 
     $scope.loggedIn = function(){
@@ -153,10 +167,10 @@ app.controller('PartPicker', ['$scope', '$http', function($scope, $http) {
         });
     };
 
-
 }]);
 
-app.controller('Forecaster', ['$scope', '$http', function($scope, $http){
+app.controller('Forecaster', ['$scope', '$http', 'UserService', function($scope, $http, UserService){
+    $scope.userData = UserService.userData;
     $scope.partsOrder = [];
 
     getPartsOrder();
@@ -175,5 +189,30 @@ app.controller('Forecaster', ['$scope', '$http', function($scope, $http){
             $scope.partsOrder[i].quantity_needed = $scope.partsOrder[i].quantity_required - $scope.partsOrder[i].quantity_available;
         }
         console.log('Complete Order: ', $scope.partsOrder);
+    };
+}]);
+
+app.factory('UserService', ['$http', function($http){
+
+    var userData = {};
+
+    var makeLoginRequest = function(data){
+        $http.post('/', data).then(function(response){
+            console.log(response);
+            userData.server = response.data;
+            userData.username = response.data.username;
+            userData.isLoggedIn = true;
+            userData.logInTime = new Date();
+            if(response.data.username){
+                return true;
+            } else {
+                return false;
+            }
+        });
+    };
+
+    return {
+      userData: userData,
+        makeLoginRequest: makeLoginRequest
     };
 }]);

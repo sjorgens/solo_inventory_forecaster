@@ -12,6 +12,7 @@ router.get('/', function(request, response){
 
 //set up endpoints for login authentication
 router.get('/success', function(request, response){
+    console.log('successful login: ', request.user);
     response.send('success');
 });
 
