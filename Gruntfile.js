@@ -7,14 +7,14 @@ module.exports = function(grunt){
                 banner: '/*! <%= pkg.name %> <%=grunt.template.today("yyyy-mm-dd") %>*/\n'
             },
             build: {
-                src: 'models/models.js',
+                src: 'client/client.js',
                 dest: 'server/public/assets/scripts/client.min.js'
             }
         },
 
         watch: {
             scripts: {
-                files: ['models/models.js'],
+                files: ['client/client.js'],
                 tasks: ['uglify'],
                 options: {
                     spawn: false

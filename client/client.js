@@ -158,7 +158,6 @@ app.controller('PartPicker', ['$scope', '$http', function($scope, $http) {
 
 app.controller('Forecaster', ['$scope', '$http', function($scope, $http){
     $scope.partsOrder = [];
-    $scope.completeOrder = [];
 
     getPartsOrder();
 
@@ -175,8 +174,6 @@ app.controller('Forecaster', ['$scope', '$http', function($scope, $http){
             console.log('Qty to Order: ', $scope.partsOrder[i].quantity_required - $scope.partsOrder[i].quantity_available);
             $scope.partsOrder[i].quantity_needed = $scope.partsOrder[i].quantity_required - $scope.partsOrder[i].quantity_available;
         }
-        console.log('')
+        console.log('Complete Order: ', $scope.partsOrder);
     };
-
-
 }]);
