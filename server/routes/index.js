@@ -13,11 +13,18 @@ router.get('/', function(request, response){
 //set up endpoints for login authentication
 router.get('/success', function(request, response){
     console.log('successful login: ', request.user);
-    response.send('success');
+    //response.send('success');
+    response.send(request.user);
 });
 
+// used prior to User Service
+//router.get('/failure', function(request,response){
+//    response.send('failure');
+//});
+
 router.get('/failure', function(request,response){
-    response.send('failure');
+    var joinedPath = path.join(__dirname, '../public/views/fail.html');
+    response.sendFile(joinedPath);
 });
 
 router.get('/register', function(request,response){

@@ -1,5 +1,5 @@
 //Hookup angular to be used on main HTML page (index.html)
-var app = angular.module('routeApp', ['ngRoute']);
+var app = angular.module('routeApp', ['ngRoute', 'ngSanitize', 'ngCsv']);
 
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){    //$locationProvider needed to remove #'s in HTML to access controller links
     $routeProvider
@@ -11,10 +11,10 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             templateUrl: 'views/partpicker.html',
             controller: 'PartPicker'
         })
-        .when('/failure', {
-            templateUrl: 'views/fail.html',
-            controller: 'FailController'
-        })
+        //.when('/failure', {
+        //    templateUrl: 'views/fail.html',
+        //    controller: 'FailController'
+        //})
         .when('/register', {
             templateUrl: 'views/register.html',
             controller: 'FailController'
@@ -51,7 +51,6 @@ app.controller('MainController', ['$scope', '$http', '$location', 'UserService',
         var loginSuccessful = UserService.makeLoginRequest($scope.data);
         $location.path('success');
     };
-
 }]);
 
 app.controller('FailController', ['$scope', '$http', function($scope, $http){
@@ -79,18 +78,18 @@ app.controller('PartPicker', ['$scope', '$http', 'UserService', function($scope,
     };
     //[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
 
-    //call function to get all parts in parts table
+    //call function to get all parts in 'parts' table
     getParts();
 
-    //post selected parts to order table
+    //post selected parts to 'order' table
     $scope.postPartsOrder = function(){
 
-       //delete all parts from order table
+       //delete all parts from 'order' table
        $http.delete('/api/deleteOrder').success(function(response){
            console.log('deleteOrder response: ', response);
        });
 
-       //add new parts and required quantities to order table
+       //add new parts and required quantities to order table on DOM
        if($scope.allParts.value1){
             console.log('id1: ', $scope.allParts[$scope.allParts.id1 - 1].id);
             console.log('Value1: ', $scope.allParts.value1);
@@ -159,7 +158,7 @@ app.controller('PartPicker', ['$scope', '$http', 'UserService', function($scope,
        }
     }
 
-    //get all parts from parts table
+    //get all parts from 'parts' table
     function getParts() {
         $http.get('/api/pullAllParts').success(function(response){
             console.log(response);
@@ -172,9 +171,19 @@ app.controller('PartPicker', ['$scope', '$http', 'UserService', function($scope,
 app.controller('Forecaster', ['$scope', '$http', 'UserService', function($scope, $http, UserService){
     $scope.userData = UserService.userData;
     $scope.partsOrder = [];
+    $scope.createCSV = [{
+        part_number: "Part Number",
+        manufacturer: "Manufacturer",
+        part_description: "Part Description",
+        quantity_required: "Quantity Required",
+        quantity_available: "Quantity Available",
+        quantity_needed: "Quantity to Order"
+    }];
 
+    //call function to build an array or parts from 'order' table
     getPartsOrder();
 
+    //pull the order from the 'order' table and set equal to the parsOrder array then call buildOrder function
     function getPartsOrder() {
         $http.get('/api/pullOrder').success(function(response){
             console.log(response);
@@ -183,12 +192,21 @@ app.controller('Forecaster', ['$scope', '$http', 'UserService', function($scope,
         });
     };
 
+    //calculates the quantity needed for each part and adds that value as a new key pair to the part object in the partsOrder array
     function buildOrder() {
         for (var i = 0; i < $scope.partsOrder.length; i++){
             console.log('Qty to Order: ', $scope.partsOrder[i].quantity_required - $scope.partsOrder[i].quantity_available);
             $scope.partsOrder[i].quantity_needed = $scope.partsOrder[i].quantity_required - $scope.partsOrder[i].quantity_available;
         }
+        createCSV();
         console.log('Complete Order: ', $scope.partsOrder);
+    };
+
+    //takes the initial createCSV array with headers and pushes all the objects from partsOrder array onto it to complete the createCSV file for export
+    function createCSV() {
+        for (var i = 0; i < $scope.partsOrder.length; i++){
+            $scope.createCSV.push($scope.partsOrder[i]);
+        }
     };
 }]);
 
@@ -198,14 +216,19 @@ app.factory('UserService', ['$http', function($http){
 
     var makeLoginRequest = function(data){
         $http.post('/', data).then(function(response){
-            console.log(response);
+            console.log('makeLoginRequest response: ', response);
             userData.server = response.data;
             userData.username = response.data.username;
             userData.isLoggedIn = true;
             userData.logInTime = new Date();
-            if(response.data.username){
+            //if(response.data.username){
+
+            //    don't understand what this is for
+            if(response.config.data.username){
+                console.log('Username captured? ', response.config.data.username);
                 return true;
             } else {
+                console.log('Username not captured.');
                 return false;
             }
         });

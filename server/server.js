@@ -49,16 +49,18 @@ mongoDB.on('open', function(){
 
 //Passport Things
 passport.serializeUser(function(user, done){
-    console.log('Serialize ran');
+    //console.log('Serialize ran');
 
     //Place ID on session, so we can get user back
-
-    console.log(user.id, user._id);
+    //console.log(user.id, user._id);
+    console.log('serializeUser: ', user);
     done(null, user.id);
 });
 
 passport.deserializeUser(function(user, done){
-    console.log('Deserialize ran');
+    //console.log('Deserialize ran');
+
+    console.log('deserializeUser', id);
 
     //Go get User object to put on req.user
     User.findById(user.id, function(error, user){
