@@ -1,18 +1,19 @@
-table, td, th {
-    border: 1px solid black;
-    border-collapse: collapse;
-    padding: 5px;
+body {
+    background-color: #9C3122;
+    padding-top: 150px;
+    font-family: Helvetica, Arial;
 }
 
-th {
-    background-color: #333333;
-    color: #FFFFFF;
-}
-
-table tr:nth-child(odd){
+header, footer, .navbar-default {
     background-color: #999B9B;
+    font-family: Helvetica, Arial;
 }
 
-table tr:nth-child(even){
-    background-color: #FFFFFF;
+.container-fluid {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.footerNav {
+    padding-left: 15px;
 }

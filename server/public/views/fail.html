@@ -1,1 +1,16 @@
-<h2>Username or password is incorrect.  Hit the back button and try again.</h2>
+<h3>Incorrect username or password.</h3>
+<div>
+    <label for="username">Username:</label>
+    <input type="text" ng-model="data.username"/>
+</div>
+
+<div>
+    <label for ="password">Password:</label>
+    <input type="password" ng-model="data.password"/>
+</div>
+
+<div>
+    <!--<button ng-click="submitData()">Sign In</button>-->
+    <button ng-click="sendDataAndStuff()">Sign In</button>
+    <a href="/register">Register</a>
+</div>

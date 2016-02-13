@@ -15,9 +15,13 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         //    templateUrl: 'views/fail.html',
         //    controller: 'FailController'
         //})
+        .when('/failure', {
+            templateUrl: 'views/signin.html',
+            controller: 'MainController'
+        })
         .when('/register', {
             templateUrl: 'views/register.html',
-            controller: 'FailController'
+            controller: 'RegisterController'
         })
         .when('/partpicker', {
             templateUrl: 'views/partpicker.html',
@@ -31,30 +35,63 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
 }]);
 
 app.controller('MainController', ['$scope', '$http', '$location', 'UserService', function($scope, $http, $location, UserService){
-    //original code
-    //$scope.data = {};
-    //
-    //$scope.submitData = function(){
-    //    $http.post('/', $scope.data).then(function(response){
-    //        console.log(response);
-    //        $location.path(response.data);
-    //    });
-    //};
     $scope.userData = UserService.userData;
+    $scope.invalidLogin = false;
+    $scope.validLogin = false;
 
     $http.get('getUser').then(function(response){
-        console.log(response);
+        console.log('getUser: ', response);
         $scope.user = response;
     });
 
     $scope.sendDataAndStuff = function(){
-        var loginSuccessful = UserService.makeLoginRequest($scope.data);
-        $location.path('success');
+        UserService.makeLoginRequest($scope.data);
+        $scope.invalidLogin = !UserService.userData.logInUser;
+        $scope.validLogin = UserService.userData.logInUser;
+        console.log('$scope.userData: ', $scope.userData);
     };
 }]);
 
-app.controller('FailController', ['$scope', '$http', function($scope, $http){
+app.controller('RegisterController', ['$scope', '$http', '$location', function($scope, $http, $location){
+    $scope.user = {
+        username: "",
+        password: ""
+    };
 
+    $http.get('getUser').then(function(response){
+        console.log('getUser: ', response);
+        $scope.user = response;
+    });
+
+    $scope.sendDataAndStuff = function(){
+        //console.log('$scope.data: ', $scope.data);
+        UserService.makeLoginRequest($scope.data);
+        //console.log('loginSuccessful: ', loginSuccessful);
+    };
+
+    $scope.register = function(){
+        var params = $scope.user.username + "/" + $scope.user.password;
+        $http.post('/registerMe/' + params).then(function(response){
+            if (response.data.username) {
+                $location.path('/');
+            }
+        });
+    };
+}]);
+
+app.controller('FailController', ['$scope', '$http', '$location', 'UserService', function($scope, $http, $location, UserService){
+    $scope.userData = UserService.userData;
+
+    $http.get('getUser').then(function(response){
+        console.log('getUser: ', response);
+        $scope.user = response;
+    });
+
+    $scope.sendDataAndStuff = function(){
+        //console.log('$scope.data: ', $scope.data);
+        UserService.makeLoginRequest($scope.data);
+        //console.log('loginSuccessful: ', loginSuccessful);
+    };
 }]);
 
 app.controller('PartPicker', ['$scope', '$http', 'UserService', function($scope, $http, UserService) {
@@ -66,17 +103,6 @@ app.controller('PartPicker', ['$scope', '$http', 'UserService', function($scope,
     var part4 = {};
     var part5 = {};
     var part6 = {};
-    //$scope.partsOrder = [];
-
-    //[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
-    //call function to return true once user logs in to turn on header elements in html
-    //doesn't work; try implementing with new code from 2/8 lecture
-    $scope.loggedIn = false;
-
-    $scope.loggedIn = function(){
-      return true;
-    };
-    //[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
 
     //call function to get all parts in 'parts' table
     getParts();
@@ -210,7 +236,7 @@ app.controller('Forecaster', ['$scope', '$http', 'UserService', function($scope,
     };
 }]);
 
-app.factory('UserService', ['$http', function($http){
+app.factory('UserService', ['$http', '$location', function($http, $location){
 
     var userData = {};
 
@@ -221,15 +247,17 @@ app.factory('UserService', ['$http', function($http){
             userData.username = response.data.username;
             userData.isLoggedIn = true;
             userData.logInTime = new Date();
-            //if(response.data.username){
 
-            //    don't understand what this is for
-            if(response.config.data.username){
-                console.log('Username captured? ', response.config.data.username);
-                return true;
+            //   don't understand what this is for
+            if(response.data.username){
+            //if(response.config.data.username){
+                userData.logInUser = true;
+                $location.path('success');
             } else {
                 console.log('Username not captured.');
-                return false;
+                //$location.path('failure');
+                userData.logInUser = false;
+                $location.path('');
             }
         });
     };

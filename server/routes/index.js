@@ -17,26 +17,30 @@ router.get('/success', function(request, response){
     response.send(request.user);
 });
 
-// used prior to User Service
+//used prior to User Service
+router.get('/failure', function(request,response){
+    response.send('failure');
+});
+
+// used when User Service was added
 //router.get('/failure', function(request,response){
-//    response.send('failure');
+//    var joinedPath = path.join(__dirname, '../public/views/fail.html');
+//    response.sendFile(joinedPath);
 //});
 
-router.get('/failure', function(request,response){
-    var joinedPath = path.join(__dirname, '../public/views/fail.html');
-    response.sendFile(joinedPath);
-});
-
-router.get('/register', function(request,response){
-    response.sendFile(path.join(__dirname, '../public/views/register.html'));
-});
+//router.get('/register', function(request,response){
+//    response.sendFile(path.join(__dirname, '../public/views/register.html'));
+//});
 
 router.post('/', passport.authenticate('local', {
-    successRedirect: '/success', failureRedirect: '/failure'
+    //successRedirect: '/success', failureRedirect: '/failure'
+    successRedirect: '/success', failureRedirect: '/'
 }));
 
-router.post('/registerMe', function(request, response){
-    User.create(request.body, function(error, post){
+router.post('/registerMe/:username/:password', function(request, response){
+    var userName = request.params.username;
+    var passWord = request.params.password;
+    User.create({ username: userName, password: passWord }, function(error, post){
         if(error){
             next(error);
         } else {

@@ -23,7 +23,7 @@ app.use(session({
     secret: 'secret',
     resave: true,
     saveUninitialized: false,
-    cookie: {maxAge: 60000, secure: false}
+    cookie: {maxAge: 3600000, secure: false}
 }));
 
 //Bring in passport
@@ -57,13 +57,13 @@ passport.serializeUser(function(user, done){
     done(null, user.id);
 });
 
-passport.deserializeUser(function(user, done){
+passport.deserializeUser(function(id, done){
     //console.log('Deserialize ran');
 
     console.log('deserializeUser', id);
 
     //Go get User object to put on req.user
-    User.findById(user.id, function(error, user){
+    User.findById(id, function(error, user){
         if(error){
             done(error);
         }

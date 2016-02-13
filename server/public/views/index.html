@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Inventory Forecaster</title>
     <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css"/>
-    <!--<link rel="stylesheet" href="assets/styles/main.css"/>-->
+    <link rel="stylesheet" href="assets/styles/main.css"/>
     <script src="vendor/angular/angular.min.js"></script>
     <script src="vendor/angular-route/angular-route.min.js"></script>
     <script src="assets/scripts/client.min.js"></script>
@@ -15,20 +15,34 @@
 </head>
 <body>
     <header>
-        <!--<div ng-show="user.username!==undefined">-->
         <div>
-            <h1>Inventory Forecaster Logo</h1>
-            <a href="/partpicker"><button>Part Picker</button></a>
-            <a href="/forecaster"><button>Forecaster</button></a>
+            <nav class="navbar navbar-default navbar-fixed-top">
+                <div class="container-fluid">
+                    <header>
+                        <h1>Inventory Forecaster Logo</h1>
+                        <div ng-show="validLogin">
+                            <a href="/"><button>Sign Out</button></a>
+                            <a href="/partpicker"><button>Part Picker</button></a>
+                            <a href="/forecaster"><button>Forecaster</button></a>
+                        </div>
+                    </header>
+                </div>
+            </nav>
         </div>
     </header>
 
     <div ng-view></div>
 
-<footer>
-    <p>&copy 2016 Inventory Forecaster</p>
-    <a href="mailto:srjorgens@gmail.com">srjorgens@gmail.com</a>
-</footer>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container-fluid">
+            <footer>
+                <div class="footerNav">
+                    <p>&copy 2016 Inventory Forecaster</p>
+                    <a href="mailto:srjorgens@gmail.com">srjorgens@gmail.com</a>
+                </div>
+            </footer>
+        </div>
+    </nav>
 
 </body>
 </html>
