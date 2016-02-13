@@ -11,10 +11,6 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             templateUrl: 'views/partpicker.html',
             controller: 'PartPicker'
         })
-        //.when('/failure', {
-        //    templateUrl: 'views/fail.html',
-        //    controller: 'FailController'
-        //})
         .when('/failure', {
             templateUrl: 'views/signin.html',
             controller: 'MainController'

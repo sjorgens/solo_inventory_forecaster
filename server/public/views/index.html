@@ -13,14 +13,14 @@
     <!--<script src="assets/client.js"></script>-->
     <base href="/">
 </head>
-<body>
+<body ng-controller="MainController">
     <header>
         <div>
             <nav class="navbar navbar-default navbar-fixed-top">
                 <div class="container-fluid">
                     <header>
                         <h1>Inventory Forecaster Logo</h1>
-                        <div ng-show="validLogin">
+                        <div ng-show="userData.logInUser">
                             <a href="/"><button>Sign Out</button></a>
                             <a href="/partpicker"><button>Part Picker</button></a>
                             <a href="/forecaster"><button>Forecaster</button></a>
