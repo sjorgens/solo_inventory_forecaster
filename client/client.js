@@ -9,7 +9,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         })
         .when('/success', {
             templateUrl: 'views/partpicker.html',
-            controller: 'PartPicker'
+            controller: 'PartPickerController'
         })
         .when('/failure', {
             templateUrl: 'views/signin.html',
@@ -19,33 +19,44 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             templateUrl: 'views/register.html',
             controller: 'RegisterController'
         })
+        //.when('/signOut', {
+        //    templateUrl: '/views/signin.html',
+        //    controller: 'signOutController'
+        //})
         .when('/partpicker', {
             templateUrl: 'views/partpicker.html',
-            controller: 'PartPicker'
+            controller: 'PartPickerController'
         })
         .when('/forecaster',{
             templateUrl: 'views/forecaster.html',
-            controller: 'Forecaster'
+            controller: 'ForecasterController'
         });
     $locationProvider.html5Mode(true);        //needed to remove #'s from HTML links to access controllers
 }]);
 
 app.controller('MainController', ['$scope', '$http', '$location', 'UserService', function($scope, $http, $location, UserService){
     $scope.userData = UserService.userData;
-    $scope.invalidLogin = false;
-    $scope.validLogin = false;
+    $scope.userData.notValidUser = true;
 
     $http.get('getUser').then(function(response){
-        console.log('getUser: ', response);
+        //console.log('getUser: ', response);
         $scope.user = response;
     });
 
     $scope.sendDataAndStuff = function(){
+        //send username and password from sign-in page to user service
         UserService.makeLoginRequest($scope.data);
-        $scope.invalidLogin = !UserService.userData.logInUser;
-        $scope.validLogin = UserService.userData.logInUser;
-        console.log('$scope.userData: ', $scope.userData);
     };
+
+    $scope.signOut = function (){
+        //console.log('tripped signOut function');
+        $http.get('/signOut').then(function(response){
+            console.log('Sign Out Response: ', response);
+            $scope.userData.logInUser = false;
+            $scope.userData.notValidUser = true;
+        });
+    };
+
 }]);
 
 app.controller('RegisterController', ['$scope', '$http', '$location', function($scope, $http, $location){
@@ -55,7 +66,7 @@ app.controller('RegisterController', ['$scope', '$http', '$location', function($
     };
 
     $http.get('getUser').then(function(response){
-        console.log('getUser: ', response);
+        //console.log('getUser: ', response);
         $scope.user = response;
     });
 
@@ -79,7 +90,7 @@ app.controller('FailController', ['$scope', '$http', '$location', 'UserService',
     $scope.userData = UserService.userData;
 
     $http.get('getUser').then(function(response){
-        console.log('getUser: ', response);
+        //console.log('getUser: ', response);
         $scope.user = response;
     });
 
@@ -90,7 +101,7 @@ app.controller('FailController', ['$scope', '$http', '$location', 'UserService',
     };
 }]);
 
-app.controller('PartPicker', ['$scope', '$http', 'UserService', function($scope, $http, UserService) {
+app.controller('PartPickerController', ['$scope', '$http', 'UserService', function($scope, $http, UserService) {
     $scope.userData = UserService.userData;
     $scope.allParts = [];
     var part1 = {};
@@ -108,74 +119,74 @@ app.controller('PartPicker', ['$scope', '$http', 'UserService', function($scope,
 
        //delete all parts from 'order' table
        $http.delete('/api/deleteOrder').success(function(response){
-           console.log('deleteOrder response: ', response);
+           //console.log('deleteOrder response: ', response);
        });
 
        //add new parts and required quantities to order table on DOM
        if($scope.allParts.value1){
-            console.log('id1: ', $scope.allParts[$scope.allParts.id1 - 1].id);
-            console.log('Value1: ', $scope.allParts.value1);
+            //console.log('id1: ', $scope.allParts[$scope.allParts.id1 - 1].id);
+            //console.log('Value1: ', $scope.allParts.value1);
             part1 = {id: $scope.allParts[$scope.allParts.id1 - 1].id,
                 value: $scope.allParts.value1
             };
-            console.log('part1 object: ', part1);
+            //console.log('part1 object: ', part1);
             $http.post('/api/saveToOrder', part1).then(function(response){
-                console.log('saveToOrder response: ', response);
+                //console.log('saveToOrder response: ', response);
             });
        }
        if($scope.allParts.value2){
-           console.log('id2: ', $scope.allParts[$scope.allParts.id2 - 1].id);
-           console.log('Value2: ', $scope.allParts.value2);
+           //console.log('id2: ', $scope.allParts[$scope.allParts.id2 - 1].id);
+           //console.log('Value2: ', $scope.allParts.value2);
            part2 = {id: $scope.allParts[$scope.allParts.id2 - 1].id,
                value: $scope.allParts.value2
            };
-           console.log('part2 object: ', part2);
+           //console.log('part2 object: ', part2);
            $http.post('/api/saveToOrder', part2).then(function(response){
-               console.log('saveToOrder response: ', response);
+               //console.log('saveToOrder response: ', response);
            });
        }
        if($scope.allParts.value3){
-           console.log('id3: ', $scope.allParts[$scope.allParts.id3 - 1].id);
-           console.log('Value3: ', $scope.allParts.value3);
+           //console.log('id3: ', $scope.allParts[$scope.allParts.id3 - 1].id);
+           //console.log('Value3: ', $scope.allParts.value3);
            part3 = {id: $scope.allParts[$scope.allParts.id3 - 1].id,
                value: $scope.allParts.value3
            };
-           console.log('part3 object: ', part3);
+           //console.log('part3 object: ', part3);
            $http.post('/api/saveToOrder', part3).then(function(response){
-               console.log('saveToOrder response: ', response);
+               //console.log('saveToOrder response: ', response);
            });
        }
        if($scope.allParts.value4){
-           console.log('id4: ', $scope.allParts[$scope.allParts.id4 - 1].id);
-           console.log('Value4: ', $scope.allParts.value4);
+           //console.log('id4: ', $scope.allParts[$scope.allParts.id4 - 1].id);
+           //console.log('Value4: ', $scope.allParts.value4);
            part4 = {id: $scope.allParts[$scope.allParts.id4 - 1].id,
                value: $scope.allParts.value4
            };
-           console.log('part4 object: ', part4);
+           //console.log('part4 object: ', part4);
            $http.post('/api/saveToOrder', part4).then(function(response){
-               console.log('saveToOrder response: ', response);
+               //console.log('saveToOrder response: ', response);
            });
        }
        if($scope.allParts.value5){
-           console.log('id5: ', $scope.allParts[$scope.allParts.id5 - 1].id);
-           console.log('Value5: ', $scope.allParts.value5);
+           //console.log('id5: ', $scope.allParts[$scope.allParts.id5 - 1].id);
+           //console.log('Value5: ', $scope.allParts.value5);
            part5 = {id: $scope.allParts[$scope.allParts.id5 - 1].id,
                value: $scope.allParts.value5
            };
-           console.log('part5 object: ', part5);
+           //console.log('part5 object: ', part5);
            $http.post('/api/saveToOrder', part5).then(function(response){
-               console.log('saveToOrder response: ', response);
+               //console.log('saveToOrder response: ', response);
            });
        }
        if($scope.allParts.value6){
-           console.log('id6: ', $scope.allParts[$scope.allParts.id6 - 1].id);
-           console.log('Value6: ', $scope.allParts.value6);
+           //console.log('id6: ', $scope.allParts[$scope.allParts.id6 - 1].id);
+           //console.log('Value6: ', $scope.allParts.value6);
            part6 = {id: $scope.allParts[$scope.allParts.id6 - 1].id,
                value: $scope.allParts.value6
            };
-           console.log('part6 object: ', part6);
+           //console.log('part6 object: ', part6);
            $http.post('/api/saveToOrder', part6).then(function(response){
-               console.log('saveToOrder response: ', response);
+               //console.log('saveToOrder response: ', response);
            });
        }
     }
@@ -183,14 +194,14 @@ app.controller('PartPicker', ['$scope', '$http', 'UserService', function($scope,
     //get all parts from 'parts' table
     function getParts() {
         $http.get('/api/pullAllParts').success(function(response){
-            console.log(response);
+            //console.log(response);
             $scope.allParts = response;
         });
     };
 
 }]);
 
-app.controller('Forecaster', ['$scope', '$http', 'UserService', function($scope, $http, UserService){
+app.controller('ForecasterController', ['$scope', '$http', 'UserService', function($scope, $http, UserService){
     $scope.userData = UserService.userData;
     $scope.partsOrder = [];
     $scope.createCSV = [{
@@ -202,13 +213,13 @@ app.controller('Forecaster', ['$scope', '$http', 'UserService', function($scope,
         quantity_needed: "Quantity to Order"
     }];
 
-    //call function to build an array or parts from 'order' table
+    //call function to build an array of parts from 'order' table
     getPartsOrder();
 
     //pull the order from the 'order' table and set equal to the parsOrder array then call buildOrder function
     function getPartsOrder() {
         $http.get('/api/pullOrder').success(function(response){
-            console.log(response);
+            //console.log(response);
             $scope.partsOrder = response;
             buildOrder();
         });
@@ -217,11 +228,11 @@ app.controller('Forecaster', ['$scope', '$http', 'UserService', function($scope,
     //calculates the quantity needed for each part and adds that value as a new key pair to the part object in the partsOrder array
     function buildOrder() {
         for (var i = 0; i < $scope.partsOrder.length; i++){
-            console.log('Qty to Order: ', $scope.partsOrder[i].quantity_required - $scope.partsOrder[i].quantity_available);
+            //console.log('Qty to Order: ', $scope.partsOrder[i].quantity_required - $scope.partsOrder[i].quantity_available);
             $scope.partsOrder[i].quantity_needed = $scope.partsOrder[i].quantity_required - $scope.partsOrder[i].quantity_available;
         }
         createCSV();
-        console.log('Complete Order: ', $scope.partsOrder);
+        //console.log('Complete Order: ', $scope.partsOrder);
     };
 
     //takes the initial createCSV array with headers and pushes all the objects from partsOrder array onto it to complete the createCSV file for export
@@ -238,7 +249,7 @@ app.factory('UserService', ['$http', '$location', function($http, $location){
 
     var makeLoginRequest = function(data){
         $http.post('/', data).then(function(response){
-            console.log('makeLoginRequest response: ', response);
+            //console.log('makeLoginRequest response: ', response);
             userData.server = response.data;
             userData.username = response.data.username;
             userData.isLoggedIn = true;
@@ -248,11 +259,13 @@ app.factory('UserService', ['$http', '$location', function($http, $location){
             if(response.data.username){
             //if(response.config.data.username){
                 userData.logInUser = true;
+                userData.notValidUser = true;
                 $location.path('success');
             } else {
-                console.log('Username not captured.');
+                //console.log('Username not captured.');
                 //$location.path('failure');
                 userData.logInUser = false;
+                userData.notValidUser = false;
                 $location.path('');
             }
         });

@@ -14,10 +14,6 @@ router.post('/saveToOrder', function(request, response){
     var partId = request.body.id;
     var quantity = request.body.value;
 
-    //testing purposes
-    //console.log('partId value: ', partId);
-    //console.log('quantity value: ', quantity);
-
     //get a Postgress models from the connection pool
     pg.connect(connectionString, function(error, client){
 

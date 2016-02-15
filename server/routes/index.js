@@ -10,30 +10,17 @@ router.get('/', function(request, response){
     response.sendFile(joinedPath);
 });
 
-//set up endpoints for login authentication
+//set up endpoints for signIn/signOut
 router.get('/success', function(request, response){
     console.log('successful login: ', request.user);
-    //response.send('success');
     response.send(request.user);
 });
 
-//used prior to User Service
 router.get('/failure', function(request,response){
     response.send('failure');
 });
 
-// used when User Service was added
-//router.get('/failure', function(request,response){
-//    var joinedPath = path.join(__dirname, '../public/views/fail.html');
-//    response.sendFile(joinedPath);
-//});
-
-//router.get('/register', function(request,response){
-//    response.sendFile(path.join(__dirname, '../public/views/register.html'));
-//});
-
 router.post('/', passport.authenticate('local', {
-    //successRedirect: '/success', failureRedirect: '/failure'
     successRedirect: '/success', failureRedirect: '/'
 }));
 
@@ -47,6 +34,15 @@ router.post('/registerMe/:username/:password', function(request, response){
             response.redirect('/success');
         }
     });
+});
+
+router.get('/signOut', function(request, response){
+    //console.log('from index.js....signing out user');
+    //console.log('response: ', response);
+    request.logout();
+    response.sendStatus(200);
+    //request.session.destroy();
+    //response.redirect('/');
 });
 
 //Need here (bottom) for catch-all to fix page refresh issue

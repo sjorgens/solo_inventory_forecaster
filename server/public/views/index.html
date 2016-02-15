@@ -10,7 +10,6 @@
     <script src="assets/scripts/client.min.js"></script>
     <script src="assets/scripts/angular-sanitize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-csv/0.3.6/ng-csv.min.js"></script>
-    <!--<script src="assets/client.js"></script>-->
     <base href="/">
 </head>
 <body ng-controller="MainController">
@@ -21,7 +20,7 @@
                     <header>
                         <h1>Inventory Forecaster Logo</h1>
                         <div ng-show="userData.logInUser">
-                            <a href="/"><button>Sign Out</button></a>
+                            <a href="/"><button ng-click="signOut()">Sign Out</button></a>
                             <a href="/partpicker"><button>Part Picker</button></a>
                             <a href="/forecaster"><button>Forecaster</button></a>
                         </div>
