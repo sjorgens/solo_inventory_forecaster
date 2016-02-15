@@ -15,11 +15,11 @@
 <body ng-controller="MainController">
     <header>
         <div>
-            <nav class="navbar navbar-default navbar-fixed-top">
+            <nav class="navbar navbar-default navbar-fixed-top topnavbar">
                 <div class="container-fluid">
                     <header>
-                        <h1>Inventory Forecaster Logo</h1>
-                        <div ng-show="userData.logInUser">
+                        <h1 class="logo">Inventory Forecaster</h1>
+                        <div class="navbuttons" ng-show="userData.logInUser">
                             <a href="/"><button ng-click="signOut()">Sign Out</button></a>
                             <a href="/partpicker"><button>Part Picker</button></a>
                             <a href="/forecaster"><button>Forecaster</button></a>
@@ -36,8 +36,13 @@
         <div class="container-fluid">
             <footer>
                 <div class="footerNav">
-                    <p>&copy 2016 Inventory Forecaster</p>
-                    <a href="mailto:srjorgens@gmail.com">srjorgens@gmail.com</a>
+                    <p></p>
+                    <ul>
+                        <li>&copy 2016 Inventory Forecaster</li>
+                        <li>
+                            <a href="mailto:srjorgens@gmail.com">srjorgens@gmail.com</a>
+                        </li>
+                    </ul>
                 </div>
             </footer>
         </div>

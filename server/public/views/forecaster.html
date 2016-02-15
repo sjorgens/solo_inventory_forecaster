@@ -5,9 +5,9 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>Part Number</th>
-                    <th>Manufacturer</th>
-                    <th>Part Description</th>
+                    <th class="col-md-2">Part Number</th>
+                    <th class="col-md-1">Manufacturer</th>
+                    <th class="col-md-4">Part Description</th>
                     <th>Quantity Required</th>
                     <th>Quantity Available</th>
                     <th>Quantity to Order</th>
@@ -25,8 +25,8 @@
             </tbody>
         </table>
     </div>
-    <!--<div ng-controller="">-->
+    <div>
         <input type="submit" id="csv" value="Create CSV" ng-csv="createCSV" filename="partsOrder.csv">
-    <!--</div>-->
+    </div>
 
 </form>
