@@ -1,14 +1,20 @@
-<form ng-submit="register()">
-    <div>
-        <label for="username">Username:</label>
-        <input ng-model="user.username" type="text" name="username" id="username" required/>
+<form class="form-horizontal" ng-submit="register()">
+    <div class="form-group">
+        <label class="col-sm-2 col-sm-offset-3 control-label">Username:</label>
+        <div class="col-sm-4">
+            <input ng-model="user.username" type="text" name="username" id="username" required/>
+        </div>
     </div>
-    <div>
-        <label for="password">Password:</label>
-        <input ng-model="user.password" type="password" name="password" id="password" required/>
+    <div class="form-group">
+        <label class="col-sm-2 col-sm-offset-3 control-label">Password:</label>
+        <div class="col-sm-4">
+            <input ng-model="user.password" type="password" name="password" id="password" required/>
+        </div>
     </div>
-    <div>
-        <input type="submit" value="Sign Up">
-        <a href="/"><input type="submit" value="Go Back"/></a>
+    <div class="form-group">
+        <div class="col-sm-offset-5 col-sm-8">
+            <input type="submit" value="Sign Up">
+            <a href="/"><input type="submit" value="Go Back"/></a>
+        </div>
     </div>
 </form>
