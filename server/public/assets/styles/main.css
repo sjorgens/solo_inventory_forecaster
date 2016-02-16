@@ -26,7 +26,8 @@ header, footer, .navbar-default {
     display: inline;
     position: relative;
     top: 25px;
-    left: 10%;
+    /*left: 10%;*/
+    left: 25px;
     margin-left: auto;
     margin-right: auto;
     padding-top: 25px;
